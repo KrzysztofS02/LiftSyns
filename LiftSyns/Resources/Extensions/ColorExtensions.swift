@@ -9,10 +9,10 @@ import SwiftUI
 
 extension Color {
     enum custom {
-        static let primary = Color("PrimaryColor")
-        static let secondary = Color("SecondaryColor")
-        static let background = Color("BackgroundColor")
-        static let text = Color("AppTextColor")
-        static let alert = Color("AlertColor")
+        static let primary = Color("LPrimary")
+        static let secondary = Color("LSecoundary")
+        static let background = Color("LBackground")
+        static let text = Color("LText")
+        static let alert = Color("LAlertColor")
     }
 }
