@@ -10,6 +10,7 @@ import SwiftUI
 struct RegisterView: View {
     @StateObject private var viewModel = RegisterViewModel()
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var coordinator: AppCoordinator
     
     var body: some View {
         ZStack {
@@ -80,6 +81,9 @@ struct RegisterView: View {
 
                         Button("Sign Up") {
                             viewModel.register()
+                            if viewModel.isFormValid {
+                                coordinator.activeScreen = .home
+                            }
                         }
                         .buttonStyle(PrimaryButton())
                         .padding(.top, 10)
@@ -95,4 +99,5 @@ struct RegisterView: View {
 
 #Preview {
     RegisterView()
+        .environmentObject(AppCoordinator())
 }

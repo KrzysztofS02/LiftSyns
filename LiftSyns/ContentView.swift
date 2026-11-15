@@ -8,14 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var coordinator = AppCoordinator()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        Group {
+            switch coordinator.activeScreen {
+            case .login:
+                LoginView()
+            case .home:
+                HomeView()
+            }
         }
-        .padding()
+        .animation(.easeInOut, value: coordinator.activeScreen)
+        .environmentObject(coordinator)
     }
 }
 

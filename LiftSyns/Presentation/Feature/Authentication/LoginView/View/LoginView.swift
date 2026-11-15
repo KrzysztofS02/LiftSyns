@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct LoginView: View {
-    @State private var email = ""
-    @State private var password = ""
+    @StateObject private var viewModel = LoginViewModel()
+    @EnvironmentObject var coordinator: AppCoordinator
     
     var body: some View {
         NavigationStack {
@@ -30,18 +30,36 @@ struct LoginView: View {
                 .padding(.bottom, 20)
                 .padding(.top, 40)
                 
-                CustomTextField(
-                    text: $email,
-                    iconName: "envelope",
-                    placeholder: "Email Address"
-                )
+                VStack(alignment: .leading, spacing: 8) {
+                    CustomTextField(
+                        text: $viewModel.email,
+                        iconName: "envelope",
+                        placeholder: "Email Address"
+                    )
+                    
+                    if let error = viewModel.emailError {
+                        Text(error)
+                            .font(.caption)
+                            .foregroundColor(.red)
+                            .padding(.leading, 15)
+                    }
+                }
                 
-                CustomTextField(
-                    text: $password,
-                    iconName: "lock",
-                    placeholder: "Password",
-                    isPassword: true
-                )
+                VStack(alignment: .leading, spacing: 8) {
+                    CustomTextField(
+                        text: $viewModel.password,
+                        iconName: "lock",
+                        placeholder: "Password",
+                        isPassword: true
+                    )
+                    
+                    if let error = viewModel.passwordError {
+                        Text(error)
+                            .font(.caption)
+                            .foregroundColor(.red)
+                            .padding(.leading, 15)
+                    }
+                }
                 
                 HStack {
                     Spacer()
@@ -56,8 +74,10 @@ struct LoginView: View {
                 .padding(.bottom, 10)
                 
                 Button("Sign In") {
-                    print("Próba logowania...")
-                    print("Email: \(email), Hasło: \(password)")
+                    viewModel.login()
+                    if viewModel.isFormValid {
+                        coordinator.activeScreen = .home
+                    }
                 }
                 .buttonStyle(PrimaryButton())
                 
@@ -86,4 +106,5 @@ struct LoginView: View {
 
 #Preview {
     LoginView()
+        .environmentObject(AppCoordinator())
 }
