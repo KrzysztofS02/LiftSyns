@@ -16,7 +16,7 @@ struct ContentView: View {
             case .login:
                 LoginView()
             case .home:
-                HomeView()
+                MainTabView()
             }
         }
         .animation(.easeInOut, value: coordinator.activeScreen)
